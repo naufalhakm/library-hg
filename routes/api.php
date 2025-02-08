@@ -39,7 +39,7 @@ Route::middleware('jwt:auth')->group(function () {
     Route::delete('/books/{id}', [BookController::class, 'destroy']);
 
 
-    Route::get('/users-borrow', [BorrowController::class, 'borrowedBooks']);
     Route::post('/users/borrow', [BorrowController::class, 'borrowBook']);
-    Route::post('/users/{userID}/return', [BorrowController::class, 'returnBook']);
+    Route::post('/users/{id}/return', [BorrowController::class, 'returnBook']);
+    Route::get('/users/{userID}/borrow', [BorrowController::class, 'borrowedBooks']);
 });
