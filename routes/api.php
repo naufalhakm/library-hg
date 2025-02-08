@@ -22,10 +22,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('jwt:auth')->group(function () {
-    Route::apiResource('categories', CategoryController::class);
-
-    Route::apiResource('books', BookController::class);
-
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::post('/categories', [CategoryController::class, 'create']);
     Route::get('/categories/{id}', [CategoryController::class, 'detail']);
