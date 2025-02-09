@@ -24,33 +24,33 @@ This microservice is built using:
 #### **Authentication**
 | HTTP Method | Endpoint       | Description              |
 |------------|---------------|--------------------------|
-| `POST`     | `/register`    | Register a new user      |
-| `POST`     | `/login`       | Login a user             |
+| `POST`     | `/api/v1/register`    | Register a new user      |
+| `POST`     | `/api/v1/login`       | Login a user             |
 
 #### **Categories** (Protected by JWT)
 | HTTP Method | Endpoint          | Description                     |
 |------------|------------------|---------------------------------|
-| `GET`      | `/categories`      | Get all categories              |
-| `POST`     | `/categories`      | Create a new category           |
-| `GET`      | `/categories/{id}` | Get details of a specific category |
-| `PUT`      | `/categories/{id}` | Update a category               |
-| `DELETE`   | `/categories/{id}` | Delete a category               |
+| `GET`      | `/api/v1/categories`      | Get all categories              |
+| `POST`     | `/api/v1/categories`      | Create a new category           |
+| `GET`      | `/api/v1/categories/{id}` | Get details of a specific category |
+| `PUT`      | `/api/v1/categories/{id}` | Update a category               |
+| `DELETE`   | `/api/v1/categories/{id}` | Delete a category               |
 
 #### **Books** (Protected by JWT)
 | HTTP Method | Endpoint       | Description                     |
 |------------|---------------|---------------------------------|
-| `GET`      | `/books`       | Get all books                   |
-| `POST`     | `/books`       | Create a new book               |
-| `GET`      | `/books/{id}`  | Get details of a specific book  |
-| `PUT`      | `/books/{id}`  | Update a book                   |
-| `DELETE`   | `/books/{id}`  | Delete a book                   |
+| `GET`      | `/api/v1/books`       | Get all books                   |
+| `POST`     | `/api/v1/books`       | Create a new book               |
+| `GET`      | `/api/v1/books/{id}`  | Get details of a specific book  |
+| `PUT`      | `/api/v1/books/{id}`  | Update a book                   |
+| `DELETE`   | `/api/v1/books/{id}`  | Delete a book                   |
 
 #### **Borrowing Books** (Protected by JWT)
 | HTTP Method | Endpoint           | Description                        |
 |------------|-------------------|----------------------------------|
-| `GET`      | `/users/borrow`    | Get list of borrowed books        |
-| `POST`     | `/users/borrow`    | Borrow a book                     |
-| `POST`     | `/users/{id}/return` | Return a borrowed book            |
+| `GET`      | `/api/v1/users/borrow`    | Get list of borrowed books        |
+| `POST`     | `/api/v1/users/borrow`    | Borrow a book                     |
+| `POST`     | `/api/v1/users/{id}/return` | Return a borrowed book            |
 
 ---
 
