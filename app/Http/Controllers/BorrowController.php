@@ -57,7 +57,7 @@ class BorrowController extends Controller
 
     public function borrowedBooks($userID)
     {
-        $borrowedBooks = Borrow::where('user_id', $userID)->with('book')->get();
+        $borrowedBooks = Borrow::where('user_id', $userID)->with(['book:id,title,description'])->get();
 
         return $this->successResponse('Borrowed books retrieved successfully', $borrowedBooks);
     }

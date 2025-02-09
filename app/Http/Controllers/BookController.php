@@ -13,31 +13,40 @@ class BookController extends Controller
 
     public function index()
     {
-        $books = Book::with('category')->get();
-        return $this->successResponse($books);
+        try {
+            $books = Book::with(['category:id,name,description'])->get();
+            return $this->successResponse('Books retrieved successfully', $books);
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to retrieve books', 500, [$e->getMessage()]);
+        }
     }
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse('Validation failed', 422, $validator->errors());
+        }
+
         try {
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'required|string',
-                'category_id' => 'required|exists:categories,id',
-            ]);
 
-            $book = Book::create($validated);
+            $book = Book::create($validator->validated());
 
-            return $this->successResponse($book, 'Book created successfully', 201);
+            return $this->successResponse('Book created successfully', $book, 201);
         } catch (\Exception $e) {
-            return $this->errorResponse('Failed to create book', $e->getMessage());
+            return $this->errorResponse('Failed to create book', 500, [$e->getMessage()]);
         }
     }
 
     public function detail($id)
     {
         try {
-            $book = Book::with('category')->find($id);
+            $book = Book::with(['category:id,name,description'])->find($id);
 
             if (!$book) {
                 return $this->errorResponse('Book not found', 404);
@@ -69,7 +78,7 @@ class BookController extends Controller
                 return $this->errorResponse('Book not found', 404);
             }
 
-            $book->update($request->only('name', 'description'));
+            $book->update($request->only('name', 'description', 'category_id'));
             return $this->successResponse('Book updated successfully', $book);
         } catch (\Exception $e) {
             return $this->errorResponse('Failed to update book', 500, [$e->getMessage()]);

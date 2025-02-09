@@ -2,6 +2,11 @@
 
 namespace App\Exceptions;
 
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -37,5 +42,45 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof UnauthorizedHttpException) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized: Please provide a valid token',
+            ], 401);
+        }
+
+        if ($exception instanceof TokenExpiredException) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token expired',
+            ], 401);
+        }
+
+        if ($exception instanceof TokenInvalidException) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token invalid',
+            ], 401);
+        }
+
+        if ($exception instanceof JWTException) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token not provided',
+            ], 401);
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        return parent::render($request, $exception);
     }
 }
